@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 
 
-namespace AnimeCoverImage.string_ex
+namespace AnimeCoverImage.StringBetweenEx
 {
-    public static class string_ex
+    public static class StringBetweenEx
     {
 
         public static List<string> Between(this string x, string from, string to)

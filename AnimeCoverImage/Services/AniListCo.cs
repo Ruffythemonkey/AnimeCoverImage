@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json.Nodes;
-using System.Text.Json;
-using AnimeCoverImage.string_ex;
+using AnimeCoverImage.Extensions;
+using AnimeCoverImage.StringBetweenEx;
 using Microsoft.Net.Http.Headers;
 
 namespace AnimeCoverImage.Services
@@ -12,64 +12,47 @@ namespace AnimeCoverImage.Services
         private DateTime tokenUpdateTime = default!;
         private IEnumerable<string> cookie;
 
-        public async Task<string> GetAnimeCoverAsync(string name)
+        public async Task<Dictionary<string, string>> GetAnimeCoverAsync(string name)
         {
-            try
-            {
-                //check is Token Elapsed
-                if (IsTokenElapsed()) { await getToken(); }
-                if (IsTokenElapsed())
-                    return string.Empty;
 
-                using var client = new HttpClient();
+            //check is Token Elapsed
+            if (IsTokenElapsed()) { await getToken(); }
+            if (IsTokenElapsed())
+                throw new("token required");
 
-                //Set aktuall Token
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("x-csrf-token", csrfToken);
-                client.DefaultRequestHeaders.Add(HeaderNames.Cookie, cookie);
-                client.DefaultRequestHeaders.Accept.Add(new("application/json"));
-            
-                //Create body
-                var variables = new Models.AniList.Variables() { search = name };
-                var body = new Models.AniList.Root() { variables = variables };
+            using var client = new HttpClient();
 
-                //Post Message
-                var ret = await client.PostAsJsonAsync("https://anilist.co/graphql", body);
-                if (ret.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var s = await ret.Content.ReadAsStringAsync();
-                    return Converter(s, name);
-                }
-            }
-            catch (Exception)
-            {
+            //Set aktuall Token
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-csrf-token", csrfToken);
+            client.DefaultRequestHeaders.Add(HeaderNames.Cookie, cookie);
+            client.DefaultRequestHeaders.Accept.Add(new("application/json"));
 
-                //Hier könnte der log stehen
-            }
+            //Create body
+            var variables = new Models.AniList.Variables() { search = name };
+            var body = new Models.AniList.Root() { variables = variables };
 
+            //Post Message
+            var ret = await client.PostAsJsonAsync("https://anilist.co/graphql", body);
+            ret.EnsureSuccessStatusCode();
 
-            return string.Empty;
+            var content = await ret.Content.ReadAsStringAsync();
+            var sid = Converter(content, name).SortDict(name);
+            return sid;
+
         }
 
 
-        private string Converter(string s, string nameOfAnime)
+        private Dictionary<string, string> Converter(string s, string nameOfAnime)
         {
             var json = JsonNode.Parse(s);
 
-            var ret = json["data"]?["Page"]?["media"]
+            return json["data"]?["Page"]?["media"]
                 .AsArray()
                 .Select(item => new KeyValuePair<string, string>(
                     item["title"]?["userPreferred"].ToString(),
                     item["coverImage"]?["large"].ToString()))
-                .ToList();
-
-            //Wenn der Animename als solches anders benannt ist siehe "The Apothecary Diaries"
-            if (!ret.Any(x => x.Key == nameOfAnime))
-            {
-                ret.Insert(0, new KeyValuePair<string, string>(nameOfAnime, ret.FirstOrDefault().Value));
-                //ret.Add(new KeyValuePair<string, string>(nameOfAnime, ret.FirstOrDefault().Value));
-            }
-            return JsonSerializer.Serialize(ret);
+                .ToDictionary();
         }
 
         private async Task getToken()
