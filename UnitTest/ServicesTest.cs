@@ -20,12 +20,12 @@ namespace UnitTest
             IAnimeCoverImage myAnimeList = new MyAnimeListCom();
 
             //Act
-            var x = await myAnimeList.GetAnimeCoverAsync("Dragonball Z");
+            var x = await myAnimeList.GetAnimeCoverAsync("Dragon ball");
 
             //Assert
             Assert.True(x.Count() > 1);
 
-            output.WriteLine(x.First().Value);
+            output.WriteLine(string.Join("\n", x.ToArray()));
         }
 
         [Fact]
@@ -39,7 +39,8 @@ namespace UnitTest
 
             //Assert
             Assert.True(x.Count() > 1);
-            output.WriteLine(x.First().Value);
+
+            output.WriteLine(string.Join("\n",x.ToArray()));
 
         }
     }

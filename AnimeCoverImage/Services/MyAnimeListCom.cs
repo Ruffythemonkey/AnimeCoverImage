@@ -29,8 +29,6 @@ namespace AnimeCoverImage.Services
                 dictFind.Add(AnimeName, Image);
             }
 
-            var m =dictFind.SortDict(name);
-
             return dictFind.SortDict(name);
 
         }
