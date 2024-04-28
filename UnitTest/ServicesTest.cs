@@ -1,10 +1,18 @@
 using AnimeCoverImage.Services;
 using System.Diagnostics;
+using Xunit.Abstractions;
 
 namespace UnitTest
 {
     public class ServicesTest
     {
+        private readonly ITestOutputHelper output;
+
+        public ServicesTest(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         [Fact]
         public async void MyAnimeListTest()
         {
@@ -12,11 +20,12 @@ namespace UnitTest
             IAnimeCoverImage myAnimeList = new MyAnimeListCom();
 
             //Act
-            var x = await myAnimeList.GetAnimeCoverAsync("Dragonball");
+            var x = await myAnimeList.GetAnimeCoverAsync("Dragonball Z");
 
             //Assert
             Assert.True(x.Count() > 1);
 
+            output.WriteLine(x.First().Value);
         }
 
         [Fact]
@@ -30,6 +39,8 @@ namespace UnitTest
 
             //Assert
             Assert.True(x.Count() > 1);
+            output.WriteLine(x.First().Value);
+
         }
     }
 }

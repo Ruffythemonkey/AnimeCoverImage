@@ -37,15 +37,15 @@ namespace AnimeCoverImage.Services
             ret.EnsureSuccessStatusCode();
 
             var content = await ret.Content.ReadAsStringAsync();
-            var sid = Converter(content, name).SortDict(name);
+            var sid = Converter(content).SortDict(name);
             return sid;
 
         }
 
 
-        private Dictionary<string, string> Converter(string s, string nameOfAnime)
+        private Dictionary<string, string> Converter(string contentstring)
         {
-            var json = JsonNode.Parse(s);
+            var json = JsonNode.Parse(contentstring);
 
             return json["data"]?["Page"]?["media"]
                 .AsArray()
