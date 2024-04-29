@@ -44,6 +44,9 @@ on:
   pull_request:
     branches: [ "master" ]
 
+permissions:
+ contents: write
+
 jobs:
 
   build:
@@ -90,11 +93,37 @@ jobs:
     - name: Build
       run: dotnet build -c Release
 
-    - name: Upload
-      uses: actions/upload-artifact@v4
+    - name: Extract Version
+      id: extractVersion
+      shell: pwsh
+      run: |
+        $xml = [Xml] (Get-Content ./AnimeCoverImage/AnimeCoverImage.csproj)
+        [string] $version = [Version] $xml.Project.PropertyGroup.ApplicationDisplayVersion
+        echo "version=$($version)" >> $env:GITHUB_OUTPUT
+
+    - name: Create Tag
+      uses: actions/github-script@v5
       with:
-        name: Build
-        path: ./AnimeCoverImage/bin/Release/net8.0/**/*.*
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+         github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            sha: context.sha,
+            ref: 'refs/tags/v${{ steps.extractVersion.outputs.version }}'
+         })
+
+    - name: Create Release
+      uses: softprops/actiion-gh-release@v1
+      with:
+        tagname: v${{ steps.extractVersion.outputs.version }}
+        files: ./AnimeCoverImage/bin/Release/net8.0/**/*.*
+  
+    # - name: Upload
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: Build
+    #     path: ./AnimeCoverImage/bin/Release/net8.0/**/*.*
 
     # # Decode the base 64 encoded pfx and save the Signing_Certificate
     # - name: Decode the pfx
