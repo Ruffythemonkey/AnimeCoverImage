@@ -41,16 +41,12 @@ name: .NET Core Desktop
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 permissions:
  contents: write
-
+ 
 jobs:
-
   build:
-
     strategy:
       matrix:
         configuration: [Release]
@@ -110,14 +106,15 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             sha: context.sha,
-            ref: 'refs/tags/v${{steps.extractVersion.outputs.version}}'
+            ref: 'refs/tags/v${{ steps.extractVersion.outputs.version }}'
          })
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        tagname: v${{steps.extractVersion.outputs.version}}
-        files: ./AnimeCoverImage/bin/Release/net8.0/**/*.*
+        tag_name: v${{ steps.extractVersion.outputs.version }}
+        files: |
+         ./AnimeCoverImage/bin/Release/net8.0/**/*.*
   
     # - name: Upload
     #   uses: actions/upload-artifact@v4
