@@ -98,7 +98,7 @@ jobs:
       shell: pwsh
       run: |
         $xml = [Xml] (Get-Content .\AnimeCoverImage\AnimeCoverImage.csproj)
-        [string] $version = [Version] $xml.Project.PropertyGroup.ApplicationDisplayVersion
+        [string] $version = [Version] [string] $xml.Project.PropertyGroup.ApplicationDisplayVersion
         echo "version=$($version)" >> $env:GITHUB_OUTPUT
 
     - name: Create Tag
@@ -110,7 +110,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             sha: context.sha,
-            ref: 'refs/tags/v${{ steps.extractVersion.outputs.version }}'
+            ref: 'refs/tags/v${{steps.extractVersion.outputs.version}}'
          })
 
     - name: Create Release
