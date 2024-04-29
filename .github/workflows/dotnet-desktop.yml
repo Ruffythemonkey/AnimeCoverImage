@@ -116,7 +116,7 @@ jobs:
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        tagname: v${{ steps.extractVersion.outputs.version }}
+        tagname: v${{steps.extractVersion.outputs.version}}
         files: ./AnimeCoverImage/bin/Release/net8.0/**/*.*
   
     # - name: Upload
