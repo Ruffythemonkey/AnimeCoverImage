@@ -97,8 +97,8 @@ jobs:
       id: extractVersion
       shell: pwsh
       run: |
-        $xml = [Xml] (Get-Content ./AnimeCoverImage/AnimeCoverImage.csproj)
-        [string] $version = [Version] $xml.Project.PropertyGroup.ApplicationDisplayVersion
+        $xml = [Xml] (Get-Content .\AnimeCoverImage\AnimeCoverImage.csproj)
+        [string] $version = $xml.Project.PropertyGroup.ApplicationDisplayVersion
         echo "version=$($version)" >> $env:GITHUB_OUTPUT
 
     - name: Create Tag
