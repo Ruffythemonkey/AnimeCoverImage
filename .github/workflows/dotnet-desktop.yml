@@ -110,7 +110,10 @@ jobs:
          })
 
     - name: Zip Package
-      run: zip -r -j ${{ github.event.repository.name }}.zip ./AnimeCoverImage/bin/Release/net8.0
+      shell: pwsh
+      run: Compress-Archive -Path './AnimeCoverImage/bin/Release/net8.0/*.*' -CompressionLevel Optimal -DestinationPath ${{ github.event.repository.name }}.zip
+
+      #run: zip -r -j ${{ github.event.repository.name }}.zip ./AnimeCoverImage/bin/Release/net8.0
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
