@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <Platforms>x64</Platforms>
+	  <ApplicationVersion>1.2.0</ApplicationVersion>
 	<ApplicationDisplayVersion>1.2.0</ApplicationDisplayVersion>
   </PropertyGroup>
 	
