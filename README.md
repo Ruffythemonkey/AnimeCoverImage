@@ -11,12 +11,9 @@
 
 ###
 
+### Lets Start
 
-<p align="left">The first result is always the best</p>
-
-
-
-```csharp
+```c#
 using AnimeCoverImage.Services;
 
 IAnimeCoverImage myAnimeList = new MyAnimeListCom();
@@ -27,7 +24,8 @@ IAnimeCoverImage myAnimeList = new MyAnimeListCom();
 var x = await myAnimeList.GetAnimeCoverAsync("Dragon ball");
 
 ```
-
+> [!NOTE]
+> The first result is always the best.
 
 
 
