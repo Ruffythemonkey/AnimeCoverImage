@@ -20,11 +20,14 @@
 using AnimeCoverImage.Services;
 
 IAnimeCoverImage myAnimeList = new MyAnimeListCom();
+
+// x returns a Dictionary<string, string>
+// Key = name of the Anime
+// Value = url to the Image
 var x = await myAnimeList.GetAnimeCoverAsync("Dragon ball");
+
 ```
-- x returns a Dictionary<string, string>
-- Key = name of the Anime
-- Value = url to the Image
+
 
 
 
@@ -34,10 +37,15 @@ var x = await myAnimeList.GetAnimeCoverAsync("Dragon ball");
 Debug.WriteLine(string.Join("\n", x.ToArray()));
 ```
 
+### Supported Services
+```
+MyAnimeList
+AniList
+```
 
 ###
 
-<h2 align="left">I code with</h2>
+<h2 align="left">coded in</h2>
 
 ###
 
