@@ -12,7 +12,7 @@
 ###
 
 
-<p align="left">The first result is always the best and returns</p>
+<p align="left">The first result is always the best</p>
 
 
 
