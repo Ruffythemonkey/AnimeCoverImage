@@ -12,12 +12,26 @@
 ###
 
 
-<p align="left">The first result is always the best</p>
+<p align="left">The first result is always the best and returns</p>
+
+
 
 ```csharp
+using AnimeCoverImage.Services;
+
 IAnimeCoverImage myAnimeList = new MyAnimeListCom();
 var x = await myAnimeList.GetAnimeCoverAsync("Dragon ball");
-output.WriteLine(string.Join("\n", x.ToArray()));
+```
+- x returns a Dictionary<string, string>
+- Key = name of the Anime
+- Value = url to the Image
+
+
+
+### All results in one overview
+
+```csharp
+Debug.WriteLine(string.Join("\n", x.ToArray()));
 ```
 
 
