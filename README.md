@@ -11,19 +11,39 @@
 
 ###
 
+### Lets Start
 
-<p align="left">The first result is always the best</p>
+```c#
+using AnimeCoverImage.Services;
+
+IAnimeCoverImage myAnimeList = new MyAnimeListCom();
+
+// x returns a Dictionary<string, string>
+// Key = name of the Anime
+// Value = url to the Image
+var x = await myAnimeList.GetAnimeCoverAsync("Dragon ball");
+
+```
+> [!NOTE]
+> The first result is always the best.
+
+
+
+### All results in one overview
 
 ```csharp
-IAnimeCoverImage myAnimeList = new MyAnimeListCom();
-var x = await myAnimeList.GetAnimeCoverAsync("Dragon ball");
-output.WriteLine(string.Join("\n", x.ToArray()));
+Debug.WriteLine(string.Join("\n", x.ToArray()));
 ```
 
+### Supported Services
+```
+MyAnimeList
+AniList
+```
 
 ###
 
-<h2 align="left">I code with</h2>
+<h2 align="left">coded in</h2>
 
 ###
 
