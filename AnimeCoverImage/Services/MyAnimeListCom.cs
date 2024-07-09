@@ -11,8 +11,15 @@ namespace AnimeCoverImage.Services
         {
             string t = $"https://myanimelist.net/anime.php?cat=anime&q={UrlEncoder.Default.Encode(name)}&type=0&score=0&status=0&p=0&r=0&sm=0&sd=0&sy=0&em=0&ed=0&ey=0&c%5B%5D=a&c%5B%5D=b&c%5B%5D=c&c%5B%5D=f";
 
-            HtmlWeb source = new HtmlWeb();
-            HtmlDocument html = await source.LoadFromWebAsync(t);
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.ConnectionClose = true;
+            var request = await client.GetAsync(t);
+            request.EnsureSuccessStatusCode();
+            var response = await request.Content.ReadAsStringAsync();
+
+            HtmlDocument html = new();
+            html.LoadHtml(response);
+
 
             //The HTML Class for the Node
             List<HtmlNode> nodes = html.GetElementsByClassName("picSurround");
