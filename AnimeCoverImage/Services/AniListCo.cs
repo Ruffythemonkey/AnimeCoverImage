@@ -23,6 +23,7 @@ namespace AnimeCoverImage.Services
             using var client = new HttpClient();
 
             //Set aktuall Token
+            client.DefaultRequestHeaders.ConnectionClose = true;
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-csrf-token", csrfToken);
             client.DefaultRequestHeaders.Add(HeaderNames.Cookie, cookie);

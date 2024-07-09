@@ -6,6 +6,9 @@
 		<Nullable>disable</Nullable>
 		<Platforms>x64</Platforms>
 		<ApplicationDisplayVersion>1.0.1</ApplicationDisplayVersion>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Copyright>Daniel Schimmelpfennig</Copyright>
+		<RepositoryUrl>https://github.com/Ruffythemonkey/AnimeCoverImage</RepositoryUrl>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

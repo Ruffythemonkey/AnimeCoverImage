@@ -43,5 +43,21 @@ namespace UnitTest
             output.WriteLine(string.Join("\n",x.ToArray()));
 
         }
+
+        [Fact]
+        public async void FindCoverTest()
+        {
+            //Arange
+            IAnimeCoverImage AniList = new FindCover();
+
+            //Act
+            var x = await AniList.GetAnimeCoverAsync("Dragonball");
+
+            //Assert
+            Assert.True(x.Count() > 1);
+
+            output.WriteLine(string.Join("\n", x.ToArray()));
+
+        }
     }
 }
