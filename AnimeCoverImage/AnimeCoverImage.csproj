@@ -9,6 +9,7 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Copyright>Daniel Schimmelpfennig</Copyright>
 		<RepositoryUrl>https://github.com/Ruffythemonkey/AnimeCoverImage</RepositoryUrl>
+		<Version>1.0.1</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
